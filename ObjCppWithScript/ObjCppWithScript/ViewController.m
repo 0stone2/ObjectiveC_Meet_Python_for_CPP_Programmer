@@ -96,6 +96,19 @@ void Append_Script_Path()
     PySys_SetPath(szScriptPath);
 }
 
+
+void DontWriteByteCode(BOOL bYes)
+{
+    if(TRUE == bYes)
+    {
+        PySys_SetObject("dont_write_bytecode", Py_True);
+    }
+    else
+    {
+        PySys_SetObject("dont_write_bytecode", Py_False);
+    }
+}
+
 - (IBAction)Button_1_Click:(id)sender {
     bool bSuccess = false;
     
@@ -106,7 +119,7 @@ void Append_Script_Path()
     @try {
         Py_Initialize();
         Append_Script_Path();
-        
+        DontWriteByteCode(TRUE);
         pModule = PyImport_ImportModule("Sample01");
         if (NULL == pModule) {
             [NSException raise:@"PyImport_ImportModule" format:@"PyImport_ImportModule = %d", (int)pModule];
